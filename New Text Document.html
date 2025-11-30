@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Happy Birthday! 🎉</title>
+    
+    <style>
+        /* (The CSS is mostly the same as before, but with additions for the hidden message and confetti) */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ffc0cb 0%, #a2c8f8 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        
+        .birthday-card {
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+            padding: 40px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            transition: transform 0.3s ease;
+        }
+        
+        .birthday-card:hover {
+            transform: scale(1.03) rotate(-1deg);
+        }
+
+        .birthday-card h1 {
+            color: #e91e63;
+            font-size: 3em;
+            margin-bottom: 5px;
+            animation: bounce 1s infinite alternate;
+        }
+
+        .birthday-card p {
+            color: #3f51b5;
+            font-size: 1.2em;
+            margin-top: 0;
+            line-height: 1.5;
+        }
+
+        .decor {
+            font-size: 4em;
+            margin: 15px 0;
+            display: block;
+        }
+        
+        /* 💡 Interactive Element Styling */
+        .cake {
+            height: 50px;
+            width: 100px;
+            background-color: #a88679;
+            border-radius: 5px 5px 0 0;
+            margin: 20px auto 10px; /* Reduced bottom margin */
+            position: relative;
+            cursor: pointer; /* *Indicates it's clickable* */
+            transition: all 0.2s;
+        }
+        
+        .cake:hover {
+            box-shadow: 0 0 15px rgba(255, 165, 0, 0.8); /* Glow effect on hover */
+        }
+
+        .cake::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 0;
+            right: 0;
+            height: 15px;
+            background-color: #ff8a80;
+            border-radius: 50% / 100%;
+        }
+
+        /* Styling for the Hidden Message */
+        #secret-message {
+            background-color: #fff0f5;
+            color: #c2185b;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 15px;
+            /* *Initially hidden* */
+            display: none; 
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Confetti Effect (Simple CSS) */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: transparent;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 100;
+        }
+        
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="birthday-card">
+        
+        <span class="decor">🥳🎁🎈</span>
+        
+        <h1>Happy Birthday!</h1>
+        
+        <p>
+            Hope you  had a fantastic day filled with joy, laughter, and all the cake you can eat! 
+            May your year ahead be your best one yet.
+        </p>
+        
+        <div class="cake" id="clickable-cake"></div>
+        
+        <div id="secret-message">
+            SURPRISE! Hope you have the greatest day ever!
+        </div>
+        
+        <p style="margin-top: 15px; font-style: italic;">Click the cake for a little surprise!</p>
+
+    </div>
+
+    <script>
+        // 1. Get the elements we need to interact with
+        const cake = document.getElementById('clickable-cake');
+        const secretMessage = document.getElementById('secret-message');
+        
+        // 2. Define the action to take when the cake is clicked
+        cake.addEventListener('click', function() {
+            // Check if the message is currently hidden
+            if (secretMessage.style.display === 'none' || secretMessage.style.display === '') {
+                // Show the message
+                secretMessage.style.display = 'block';
+                // Fade it in slowly
+                setTimeout(() => {
+                    secretMessage.style.opacity = '1';
+                }, 10); // Small delay to allow 'display: block' to register
+            } else {
+                // Hide the message (optional: click to hide again)
+                secretMessage.style.opacity = '0';
+                setTimeout(() => {
+                    secretMessage.style.display = 'none';
+                }, 500);
+            }
+        });
+
+
+        // 3. Simple Confetti Effect Function (Bonus Interactivity)
+        function createConfetti() {
+            const colors = ['#f44336', '#e91e63', '#9c27b0', '#2196f3', '#4caf50', '#ffeb3b', '#ff9800'];
+            for (let i = 0; i < 50; i++) {
+                const c = document.createElement('div');
+                c.classList.add('confetti');
+                c.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                c.style.left = Math.random() * 100 + 'vw';
+                c.style.top = Math.random() * -10 + 'vh'; // Start above the viewport
+                c.style.width = c.style.height = Math.random() * 8 + 5 + 'px';
+                
+                // Add a simple drop animation
+                c.style.animation = drop ${Math.random() * 2 + 3}s linear infinite;
+                
+                document.body.appendChild(c);
+            }
+        }
+
+        // Add the drop animation keyframes to the style sheet
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes drop {
+                0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+                100% { transform: translateY(100vh) rotate(360deg); opacity: 0.5; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Run the confetti function when the page loads
+        createConfetti();
+
+    </script>
+</body>
+</html>
